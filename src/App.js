@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom
 
 //Auth
 import  Login  from './auth/Login';
-import  Signin  from './auth/Signin';
+import  Register  from './auth/Register';
 
 //Public
 import  Home from './userInterface/Home';
@@ -17,8 +17,8 @@ const App = () => {
             <Header/>
               <Switch>
                 <Route exact path='/' component={Home}/>
+                <Route exact path='/register' component={Register}/>
                 <Route exact path='/login' component={Login}/>
-                <Route exact path='/Signin' component={Signin}/>
                 <Redirect to='/' /> 
               </Switch>
           </div>

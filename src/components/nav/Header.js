@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { Menu } from "antd";
 import {
     AppstoreOutlined,
@@ -6,6 +7,7 @@ import {
     UserOutlined,
     UserAddOutlined,
 } from "@ant-design/icons";
+
 
 const { SubMenu, Item } = Menu;
 
@@ -17,10 +19,20 @@ const Header = () => {
     setCurrent(e.key);
     };
 
+    
+    console.log()
+
+    useEffect(() => {
+        
+    }, [current])
+
+
     return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
             <Item key="home" icon={<AppstoreOutlined />}>
-                Home
+                <Link to='/'>
+                    Home
+                </Link>
             </Item>
 
             <SubMenu icon={<SettingOutlined />} title="Username">
@@ -29,11 +41,16 @@ const Header = () => {
             </SubMenu>
 
             <Item key="register" icon={<UserAddOutlined />} className="float-right">
-                Register
+                <Link to='/register'>
+                    Register
+                </Link>
             </Item>
 
             <Item key="login" icon={<UserOutlined />} className="float-right">
-                Login
+                <Link to ='/login'>
+                    Login
+                </Link>
+                
             </Item>
     </Menu>
     );
