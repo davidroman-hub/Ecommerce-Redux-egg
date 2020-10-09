@@ -1,9 +1,12 @@
 import React from 'react'
 
-export const Signin = () => {
+
+const Signin = () => {
     return (
         <div>
             <h1>Hello Signin</h1>
         </div>
     )
 }
+
+export default Signin
