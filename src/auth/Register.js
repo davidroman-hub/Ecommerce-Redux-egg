@@ -12,7 +12,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const config = {
-            url: "http://localhost:3000/register/complete",
+            url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true,
         };
     
