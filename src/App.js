@@ -1,5 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 //Auth
 import  Login  from './auth/Login';
@@ -20,7 +23,6 @@ const App = () => {
               <Switch>
                 
                 {/* Public */}
-
                 <Route exact path='/' component={Home}/>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/login' component={Login}/>
