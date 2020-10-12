@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import {auth} from '../firebase';
-import {toast, ToastContainer} from 'react-toastify';
+//import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
 
@@ -108,7 +108,7 @@ const registerForm = () => (
         <div className='row'>
             <div className=' col-md-6 offset-md-3'>
                 <h4>Active account</h4>
-                <ToastContainer/>
+                {/* <ToastContainer/> */}
                 {accountActivaionForm()}
             </div>
         </div>
