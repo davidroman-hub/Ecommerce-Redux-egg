@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link,withRouter } from 'react-router-dom';
 import { Menu } from "antd";
 import {
     AppstoreOutlined,
@@ -11,25 +11,31 @@ import {
 
 const { SubMenu, Item } = Menu;
 
-const Header = () => {
-    const [current, setCurrent] = useState("home");
+const Header = ({history}) => {
+
+    const currentPath = history.location.pathname
+
+    const [
+        current, 
+        setCurrent] = useState(currentPath);
 
     const handleClick = (e) => {
     //console.log(e.key);
     setCurrent(e.key);
     };
 
+
     
-    console.log()
-
+    
     useEffect(() => {
-        
-    }, [current])
+        //setCurrent(history.location.pathname)
+    }, [])
 
+    //console.log(history.location.pathname)
 
     return (
-    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-            <Item key="home" icon={<AppstoreOutlined />}>
+    <Menu onClick={handleClick} selectedKeys={[currentPath]} mode="horizontal">
+            <Item key="/" icon={<AppstoreOutlined />}>
                 <Link to='/'>
                     Home
                 </Link>
@@ -40,13 +46,13 @@ const Header = () => {
                 <Item key="setting:2">Option 2</Item>
             </SubMenu>
 
-            <Item key="register" icon={<UserAddOutlined />} className="float-right">
+            <Item key="/register" icon={<UserAddOutlined />} className="float-right" >
                 <Link to='/register'>
                     Register
                 </Link>
             </Item>
 
-            <Item key="login" icon={<UserOutlined />} className="float-right">
+            <Item key="/login" icon={<UserOutlined />} className="float-right">
                 <Link to ='/login'>
                     Login
                 </Link>
@@ -56,4 +62,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default withRouter(Header);

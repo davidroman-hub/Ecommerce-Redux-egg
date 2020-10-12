@@ -12,19 +12,19 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const config = {
-          url: "http://localhost:3000/register/complete",
-          handleCodeInApp: true,
+            url: "http://localhost:3000/register/complete",
+            handleCodeInApp: true,
         };
     
         await auth.sendSignInLinkToEmail(email, config);
         toast.success(
-          `Email is sent to ${email}. Click the link to complete your registration.`
+            `Email is sent to ${email}. Click the link to complete your registration.`
         );
         // save user email in local storage
         window.localStorage.setItem("emailForRegistration", email);
         // clear state
         setEmail("");
-      };
+    };
 
     //REMEMBER TO HABILITE FROM GOOGLE CONSOLE THE LOGINS!!
 
