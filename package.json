@@ -14,7 +14,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-toastify": "^6.0.9",
-    "sweetalert2": "^10.4.0"
+    "sweetalert2": "^10.4.0",
+    "validator": "^13.1.17"
   },
   "scripts": {
     "start": "react-scripts start",

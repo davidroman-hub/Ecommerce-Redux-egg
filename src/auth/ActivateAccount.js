@@ -31,13 +31,43 @@ const  UrlLink = window.location.href
     
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        // validation
+
+        if(!email || !password ){
+            Swal.fire({ title:'E-mail and Password is Required',
+                icon:'error'
+                });
+                return;
+        }
+        if(password.length < 6 ){
+            Swal.fire({ title:'Password must have at least 6 characters long',
+                icon:'error'
+                });
+                return;
+        }
+
+
         try {
             // method to the google APi
             const result = await auth.signInWithEmailLink(
                 email,
                 UrlLink
                 );
-                console.log(result)
+                //console.log(result) // <-- check in the console when you register if emailVerified = true
+                if(result.user.emailVerified){
+                    // if is verified update this with the password
+                    // part1 remove user email from local storage
+                        window.localStorage.removeItem('emailForRegistration');
+                    //part2 get user id Token
+                        let user = auth.currentUser
+                        await user.updatePassword(password); //<== and we update the password with this method
+                        const idTokenResult = await user.getIdTokenResult()
+                     //redux store   
+                    console.log('user', user, ' idTokenResult', idTokenResult)
+                    //part3 Redirect
+                    history.push('/')
+                }
         } catch (error) {
             console.log(error)
             Swal.fire({ title:error.message,
