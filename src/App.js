@@ -4,6 +4,8 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 //Auth
 import  Login  from './auth/Login';
 import  Register  from './auth/Register';
+import ActiveAccount from './auth/ActivateAccount';
+
 
 //Public
 import  Home from './userInterface/Home';
@@ -16,9 +18,13 @@ const App = () => {
           <div>
             <Header/>
               <Switch>
+                
+                {/* Public */}
+
                 <Route exact path='/' component={Home}/>
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/login' component={Login}/>
+                <Route exact path='/register/complete' component={ActiveAccount}/>
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>
