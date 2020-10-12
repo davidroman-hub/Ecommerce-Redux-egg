@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import {auth} from '../firebase';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Swal from "sweetalert2";
 
 const Register = () => {
 
@@ -15,11 +15,16 @@ const Register = () => {
             url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true,
         };
-    
         await auth.sendSignInLinkToEmail(email, config);
-        toast.success(
-            `Email is sent to ${email}. Click the link to complete your registration.`
-        );
+        // toast.success(
+        //     `Email is sent to ${email}. Click the link to complete your registration.`
+        // );
+        Swal.fire({ title:`E-mail is sent to ${email}. 
+                    Follow the intructions to Register`,
+                    icon:'success'
+
+    })
+
         // save user email in local storage
         window.localStorage.setItem("emailForRegistration", email);
         // clear state
