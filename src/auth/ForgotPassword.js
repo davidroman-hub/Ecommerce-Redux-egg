@@ -13,8 +13,27 @@ const ForgotPassword = ({history}) => {
     const [loading, setLoading] = useState(false)
 
 
-    const handleSubmitForgot = (e) => {
+    const handleSubmitForgot = async (e) => {
         e.preventDefault()
+        setLoading(true)
+        const config = {
+            url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT,
+            handleCodeInApp: true,
+        };
+        await auth.sendPasswordResetEmail(email, config)
+        .then(() => {
+            setEmail('')
+            setLoading(false)
+            Swal.fire({ title:'Check your E-mail to password reset Link',
+                icon:'success'
+                });
+        })
+        .catch((error) => {
+            setLoading(false);
+            Swal.fire({ title:error.message,
+                icon:'error'
+                });
+        })
     }
 
     const forgotPasswordForm = () => (
