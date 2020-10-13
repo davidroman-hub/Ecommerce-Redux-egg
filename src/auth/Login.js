@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
-import {auth} from '../firebase';
+import {auth, googleAuthProvider} from '../firebase';
 import { Button, message } from 'antd';
-import { MailOutlined } from "@ant-design/icons";
+import { MailOutlined,GoogleOutlined  } from "@ant-design/icons";
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux';
 
@@ -87,14 +87,55 @@ const registerForm = () => (
     <div className='container p-5'>
         <div className='row'>
             <div className=' col-md-6 offset-md-3'>
-                <h4>Login</h4>
                 {/* <ToastContainer/> */}
+                {/* To show loading spiner or something else.. */}
+                {loading ? <h4>Loading...</h4> : <h4>Login</h4> } 
                 {loginFormExec()}
+                {googleButton()}
             </div>
         </div>
     </div>
 )
 
+
+const handleGoogleLogin = async () => {
+    auth.signInWithPopup(googleAuthProvider)
+    .then( async (result) => {
+        const {user} = result
+        const idTokenResult = await user.getIdTokenResult();
+        dispatch({
+            type:'LOGGED_IN_USER',
+            payload:{
+                email:user.email,
+                token:idTokenResult.token,
+            }
+        })
+        history.push('/')
+    })
+    .catch(err =>{  
+        console.log(err) 
+        Swal.fire({ title:err.message,
+                icon:'error'
+                });
+    })
+};
+
+const googleButton = () => {
+    return(
+        <Button
+            onClick={handleGoogleLogin}
+            type='danger'
+            className='mb-3'
+            block
+            shape='round'
+            icon={<GoogleOutlined/>}
+            size='large'
+            
+            > 
+            Login with Google
+        </Button>
+    )
+}
 
 
     return (
