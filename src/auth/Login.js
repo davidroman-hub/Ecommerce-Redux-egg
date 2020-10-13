@@ -7,13 +7,19 @@ import Swal from "sweetalert2";
 
 const Login = () => {
 
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('')
+    const [email,setEmail] = useState('healinglovenotif@gmail.com');
+    const [password,setPassword] = useState('sandra7373')
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         //console.table(email,password)
+        try {
+            const result = auth.signInWithEmailAndPassword(email,password)
+            console.log(result)
+        } catch (error) {
+            
+        }
         
     };
 
