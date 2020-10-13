@@ -7,6 +7,7 @@ import  Login  from './auth/Login';
 import  Register  from './auth/Register';
 import ActiveAccount from './auth/ActivateAccount';
 import {auth} from './firebase'; 
+import ForgotPassword from './auth/ForgotPassword';
 
 
 //Public
@@ -40,8 +41,6 @@ const App = () => {
 
   }, [])
 
-
-
   return(
     <>
         <Router>
@@ -54,6 +53,7 @@ const App = () => {
                 <Route exact path='/register' component={Register}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/register/complete' component={ActiveAccount}/>
+                <Route exact path='/forgot/password' component={ForgotPassword}/>
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>

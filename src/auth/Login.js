@@ -1,9 +1,14 @@
 import React,{useState} from 'react'
 import {auth, googleAuthProvider, facebookProvider } from '../firebase';
-import { Button, message } from 'antd';
+import { 
+        Button,
+        //message
+    } from 'antd';
 import { MailOutlined,GoogleOutlined,FacebookOutlined  } from "@ant-design/icons";
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux';
+import { Link } from 'react-router-dom';
+
 
 import Swal from "sweetalert2";
 
@@ -78,6 +83,7 @@ const Login = ({history}) => {
                     > 
                     Login with E-mail/Password
                 </Button>
+                
         </form>
     )
 
@@ -93,6 +99,7 @@ const registerForm = () => (
                 {loginFormExec()}
                 {googleButton()}
                 {facebookButton()}
+                <Link to='/forgot/password' className='float-right text-danger'>Forgot Password?</Link>
             </div>
         </div>
     </div>
@@ -121,7 +128,7 @@ const handleGoogleLogin = async () => {
     })
 };
 
-// remember confign the oAuth inside facebook develop console
+// remember confign the oAuth inside facebook develop
 
 const handleFacebookLogin = async () => {
     auth.signInWithPopup(facebookProvider)
