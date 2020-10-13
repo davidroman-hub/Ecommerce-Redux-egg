@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {auth, googleAuthProvider, facebookProvider } from '../firebase';
 import { 
         Button,
@@ -8,7 +8,7 @@ import { MailOutlined,GoogleOutlined,FacebookOutlined  } from "@ant-design/icons
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import {useSelector} from 'react-redux';
 
 import Swal from "sweetalert2";
 
@@ -17,6 +17,7 @@ const Login = ({history}) => {
     const [email,setEmail] = useState('jobroman83@gmail.com');
     const [password,setPassword] = useState('123456');
     const [loading,setLoading] = useState(false);
+    const {user} = useSelector( state => ({...state}));
 
     let dispatch = useDispatch();
 
@@ -45,6 +46,12 @@ const Login = ({history}) => {
         }
         
     };
+
+    useEffect(() => {
+        if(user && user.token) {
+            history.push('/');
+            }
+        },[user])
 
     //REMEMBER TO HABILITE FROM GOOGLE CONSOLE THE LOGINS!!
 

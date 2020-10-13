@@ -1,12 +1,14 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {auth} from '../firebase';
 //import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
+import {useSelector} from 'react-redux';
 
-const Register = () => {
+const Register = ({history}) => {
 
-    const [email,setEmail] = useState('')
+    const [email,setEmail] = useState('');
+    const {user} = useSelector( state => ({...state}));
 
 
     const handleSubmit = async (e) => {
@@ -29,6 +31,12 @@ const Register = () => {
         // clear state
         setEmail("");
     };
+
+    useEffect(() => {
+        if(user && user.token) {
+            history.push('/');
+            }
+        },[user])
 
     //REMEMBER TO HABILITE FROM GOOGLE CONSOLE THE LOGINS!!
 
