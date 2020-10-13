@@ -22,8 +22,7 @@ const Register = () => {
         Swal.fire({ title:`E-mail is sent to ${email}. 
                     Follow the intructions to Register`,
                     icon:'success'
-
-    })
+            })
 
         // save user email in local storage
         window.localStorage.setItem("emailForRegistration", email);

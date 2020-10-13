@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { Link,withRouter, useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import firebase from 'firebase';
 import { Menu } from "antd";
 import {
@@ -10,6 +10,7 @@ import {
     UserAddOutlined,
     LogoutOutlined
 } from "@ant-design/icons";
+import useSelection from "antd/lib/table/hooks/useSelection";
 
 
 const { SubMenu, Item } = Menu;
@@ -23,6 +24,7 @@ const Header = ({history}) => {
         setCurrent] = useState(currentPath);
 
     let dispatch = useDispatch();
+    let {user} = useSelector((state) => ({...state}) ) // to access to user in the state redux
     let historyRedirect = useHistory();    
 
     const handleClick = (e) => {
@@ -40,12 +42,10 @@ const Header = ({history}) => {
     }
 
     
-    
     useEffect(() => {
-        //setCurrent(history.location.pathname)
+        //
     }, [])
 
-    //console.log(history.location.pathname)
 
     return (
     <Menu onClick={handleClick} selectedKeys={[currentPath]} mode="horizontal">
@@ -54,25 +54,37 @@ const Header = ({history}) => {
                     Home
                 </Link>
             </Item>
+            {/* If exist user */}
+            {user && (
+                <>
+                    <SubMenu icon={<SettingOutlined />}
+                        title={user.email && user.email.split('@')[0] } 
+                        //name@gmail.com ['name', '@gmail.com'] // we gonna divide and gran only the first part
+                        //remember in the arrays start with 0 , and the first part (name) its 0  then
+                        className='float-right'>
 
-            <SubMenu icon={<SettingOutlined />} title="Username">
-                <Item key="setting:1">Option 1</Item>
-                <Item key="setting:2">Option 2</Item>
-                <Item icon={<LogoutOutlined/>} onClick={logout}>Logout</Item>
-            </SubMenu>
+                        <Item key="setting:1">Option 1</Item>
+                        <Item key="setting:2">Option 2</Item>
+                        <Item icon={<LogoutOutlined/>} onClick={logout}>Logout</Item>
+                    </SubMenu>
+                </>
+            )}
 
-            <Item key="/register" icon={<UserAddOutlined />} className="float-right" >
-                <Link to='/register'>
-                    Register
-                </Link>
-            </Item>
-
-            <Item key="/login" icon={<UserOutlined />} className="float-right">
-                <Link to ='/login'>
-                    Login
-                </Link>
-                
-            </Item>
+            {/* If not user show: */}
+            {!user && (
+            <>
+                <Item key="/register" icon={<UserAddOutlined />} className="float-right" >
+                    <Link to='/register'>
+                        Register
+                    </Link>
+                </Item>
+                <Item key="/login" icon={<UserOutlined />} className="float-right">
+                    <Link to ='/login'>
+                        Login
+                    </Link>
+                </Item>
+            </>
+            )}
     </Menu>
     );
 };
