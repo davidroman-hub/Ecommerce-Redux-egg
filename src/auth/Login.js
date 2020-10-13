@@ -1,24 +1,42 @@
 import React,{useState} from 'react'
 import {auth} from '../firebase';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { MailOutlined } from "@ant-design/icons";
 import 'react-toastify/dist/ReactToastify.css';
+import {useDispatch} from 'react-redux';
+
 import Swal from "sweetalert2";
 
-const Login = () => {
+const Login = ({history}) => {
 
-    const [email,setEmail] = useState('healinglovenotif@gmail.com');
-    const [password,setPassword] = useState('sandra7373')
+    const [email,setEmail] = useState('jobroman83@gmail.com');
+    const [password,setPassword] = useState('123456');
+    const [loading,setLoading] = useState(false);
 
+    let dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         //console.table(email,password)
         try {
-            const result = auth.signInWithEmailAndPassword(email,password)
-            console.log(result)
+            const result = await auth.signInWithEmailAndPassword(email,password)
+            const {user} = result
+            const idTokenResult = await user.getIdTokenResult()
+            dispatch({
+                type:'LOGGED_IN_USER',
+                payload:{
+                    email:user.email,
+                    token:idTokenResult.token,
+                }
+            })
+            //console.log(result)
+            history.push('/')
         } catch (error) {
-            
+            Swal.fire({ title:error.message,
+                icon:'error'
+                });
+                setLoading(false)
         }
         
     };
