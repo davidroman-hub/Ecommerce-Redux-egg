@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
-import {auth, googleAuthProvider} from '../firebase';
+import {auth, googleAuthProvider, facebookProvider } from '../firebase';
 import { Button, message } from 'antd';
-import { MailOutlined,GoogleOutlined  } from "@ant-design/icons";
+import { MailOutlined,GoogleOutlined,FacebookOutlined  } from "@ant-design/icons";
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux';
 
@@ -92,6 +92,7 @@ const registerForm = () => (
                 {loading ? <h4>Loading...</h4> : <h4>Login</h4> } 
                 {loginFormExec()}
                 {googleButton()}
+                {facebookButton()}
             </div>
         </div>
     </div>
@@ -120,6 +121,31 @@ const handleGoogleLogin = async () => {
     })
 };
 
+// remember confign the oAuth inside facebook develop console
+
+const handleFacebookLogin = async () => {
+    auth.signInWithPopup(facebookProvider)
+    .then( async (result) => {
+        const {user} = result
+        const idTokenResult = await user.getIdTokenResult();
+        dispatch({
+            type:'LOGGED_IN_USER',
+            payload:{
+                email:user.email,
+                token:idTokenResult.token,
+            }
+        })
+        history.push('/')
+    })
+    .catch(err =>{  
+        console.log(err) 
+        Swal.fire({ title:err.message,
+                icon:'error'
+                });
+    })
+    
+}
+
 const googleButton = () => {
     return(
         <Button
@@ -133,6 +159,23 @@ const googleButton = () => {
             
             > 
             Login with Google
+        </Button>
+    )
+}
+
+
+const facebookButton = () => {
+    return(
+        <Button
+            onClick={handleFacebookLogin}
+            type='primary'
+            className='mb-3'
+            block
+            shape='round'
+            icon={<FacebookOutlined/>}
+            size='large'
+            > 
+            Login with Facebook
         </Button>
     )
 }
