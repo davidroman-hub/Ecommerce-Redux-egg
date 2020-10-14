@@ -9,8 +9,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
+import axios from 'axios'; //<=== what we want is a function to send the login token to the back end and 
+// create a new user!!!
 
 import Swal from "sweetalert2";
+
+//create or update user!!!
+
+const createOrUpdateUser = async (authtoken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, 
+        {},
+            { 
+                headers:{
+                    authtoken,
+            }
+    });
+};
 
 const Login = ({history}) => {
 
@@ -26,18 +40,25 @@ const Login = ({history}) => {
         setLoading(true)
         //console.table(email,password)
         try {
-            const result = await auth.signInWithEmailAndPassword(email,password)
-            const {user} = result
-            const idTokenResult = await user.getIdTokenResult()
-            dispatch({
-                type:'LOGGED_IN_USER',
-                payload:{
-                    email:user.email,
-                    token:idTokenResult.token,
-                }
-            })
-            //console.log(result)
-            history.push('/')
+            const result = await auth.signInWithEmailAndPassword(email,password);
+            const {user} = result;
+            const idTokenResult = await user.getIdTokenResult();
+
+            createOrUpdateUser(idTokenResult.token)
+            .then(
+                res => console.log('create or update res', res)
+            )
+            .catch()
+
+            // dispatch({
+            //     type:'LOGGED_IN_USER',
+            //     payload:{
+            //         email:user.email,
+            //         token:idTokenResult.token,
+            //     }
+            // })
+            // //console.log(result)
+            // history.push('/')
         } catch (error) {
             Swal.fire({ title:error.message,
                 icon:'error'
