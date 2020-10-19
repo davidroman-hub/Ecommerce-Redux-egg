@@ -51,18 +51,22 @@ const Login = ({history}) => {
             const idTokenResult = await user.getIdTokenResult();
 
             createOrUpdateUser(idTokenResult.token)
-            .then((res) => console.log('CREATE OR UPDATE RES', res))
+            .then((res) => {
+                //now we are bringing all the info from the backend
+                dispatch({
+                    type:'LOGGED_IN_USER',
+                    payload:{
+                        name:res.data.name,
+                        email:res.data.email,
+                        token:idTokenResult.token,
+                        role:res.data.role,
+                        _id:res.data._id
+                }
+            })
+            //console.log(result)
+            })
             .catch();
-
-            // dispatch({
-            //     type:'LOGGED_IN_USER',
-            //     payload:{
-            //         email:user.email,
-            //         token:idTokenResult.token,
-            //     }
-            // })
-            // //console.log(result)
-            // history.push('/')
+            history.push('/')
         } catch (error) {
             console.log(error)
             Swal.fire({ title:error.message,
@@ -141,15 +145,21 @@ const handleGoogleLogin = async () => {
         const {user} = result
         const idTokenResult = await user.getIdTokenResult();
         createOrUpdateUser(idTokenResult.token)
-        .then((res) => console.log('CREATE OR UPDATE RES', res))
+            .then((res) => {
+                //now we are bringing all the info from the backend
+                dispatch({
+                    type:'LOGGED_IN_USER',
+                    payload:{
+                        name:res.data.name,
+                        email:res.data.email,
+                        token:idTokenResult.token,
+                        role:res.data.role,
+                        _id:res.data._id
+                }
+            })
+            //console.log(result)
+            })
             .catch();
-        dispatch({
-            type:'LOGGED_IN_USER',
-            payload:{
-                email:user.email,
-                token:idTokenResult.token,
-            }
-        })
         history.push('/')
     })
     .catch(err =>{  
@@ -168,15 +178,21 @@ const handleFacebookLogin = async () => {
         const {user} = result
         const idTokenResult = await user.getIdTokenResult();
         createOrUpdateUser(idTokenResult.token)
-            .then((res) => console.log('CREATE OR UPDATE RES', res))
+            .then((res) => {
+                //now we are bringing all the info from the backend
+                dispatch({
+                    type:'LOGGED_IN_USER',
+                    payload:{
+                        name:res.data.name,
+                        email:res.data.email,
+                        token:idTokenResult.token,
+                        role:res.data.role,
+                        _id:res.data._id
+                }
+            })
+            //console.log(result)
+            })
             .catch();
-        dispatch({
-            type:'LOGGED_IN_USER',
-            payload:{
-                email:user.email,
-                token:idTokenResult.token,
-            }
-        })
         history.push('/')
     })
     .catch(err =>{  
