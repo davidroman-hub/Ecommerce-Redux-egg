@@ -32,12 +32,18 @@ const Login = ({history}) => {
     const [password,setPassword] = useState('123456');
     const [loading,setLoading] = useState(false);
     const {user} = useSelector( state => ({...state}));
+    
+    useEffect(() => {
+        if(user && user.token) {
+            history.push('/');
+            }
+        },[user])
 
     let dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
         //console.table(email,password)
         try {
             const result = await auth.signInWithEmailAndPassword(email,password);
@@ -45,10 +51,8 @@ const Login = ({history}) => {
             const idTokenResult = await user.getIdTokenResult();
 
             createOrUpdateUser(idTokenResult.token)
-            .then(
-                res => console.log('create or update res', res)
-            )
-            .catch()
+            .then((res) => console.log('CREATE OR UPDATE RES', res))
+            .catch();
 
             // dispatch({
             //     type:'LOGGED_IN_USER',
@@ -60,6 +64,7 @@ const Login = ({history}) => {
             // //console.log(result)
             // history.push('/')
         } catch (error) {
+            console.log(error)
             Swal.fire({ title:error.message,
                 icon:'error'
                 });
@@ -68,11 +73,7 @@ const Login = ({history}) => {
         
     };
 
-    useEffect(() => {
-        if(user && user.token) {
-            history.push('/');
-            }
-        },[user])
+    
 
     //REMEMBER TO HABILITE FROM GOOGLE CONSOLE THE LOGINS!!
 
@@ -139,6 +140,9 @@ const handleGoogleLogin = async () => {
     .then( async (result) => {
         const {user} = result
         const idTokenResult = await user.getIdTokenResult();
+        createOrUpdateUser(idTokenResult.token)
+        .then((res) => console.log('CREATE OR UPDATE RES', res))
+            .catch();
         dispatch({
             type:'LOGGED_IN_USER',
             payload:{
@@ -163,6 +167,9 @@ const handleFacebookLogin = async () => {
     .then( async (result) => {
         const {user} = result
         const idTokenResult = await user.getIdTokenResult();
+        createOrUpdateUser(idTokenResult.token)
+            .then((res) => console.log('CREATE OR UPDATE RES', res))
+            .catch();
         dispatch({
             type:'LOGGED_IN_USER',
             payload:{
