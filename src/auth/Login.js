@@ -4,27 +4,19 @@ import {
         Button,
         //message
     } from 'antd';
-import { MailOutlined,GoogleOutlined,FacebookOutlined  } from "@ant-design/icons";
+import { MailOutlined,GoogleOutlined,FacebookOutlined, FrownFilled  } from "@ant-design/icons";
 import 'react-toastify/dist/ReactToastify.css';
 import {useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import axios from 'axios'; //<=== what we want is a function to send the login token to the back end and 
+import {createOrUpdateUser} from '../functions/auth';
+//<=== what we want is a function to send the login token to the back end and 
 // create a new user!!!
 
 import Swal from "sweetalert2";
 
 //create or update user!!!
 
-const createOrUpdateUser = async (authtoken) => {
-    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, 
-        {},
-            { 
-                headers:{
-                    authtoken,
-            }
-    });
-};
 
 const Login = ({history}) => {
 
@@ -66,6 +58,7 @@ const Login = ({history}) => {
             //console.log(result)
             })
             .catch();
+
             history.push('/')
         } catch (error) {
             console.log(error)

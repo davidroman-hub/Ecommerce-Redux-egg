@@ -3,11 +3,16 @@ import {auth} from '../firebase';
 //import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
+import {useDispatch, useSelector} from 'react-redux';
+import {createOrUpdateUser} from '../functions/auth';
 
 const ActiveAccount = ({history}) => {
 
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
+
+    const {user} = useSelector( state => ({...state}));
+    let dispatch = useDispatch();
 
     //props.history
 
@@ -65,9 +70,27 @@ const  UrlLink = window.location.href
                         const idTokenResult = await user.getIdTokenResult()
                      //redux store   
                     console.log('user', user, ' idTokenResult', idTokenResult)
-                    //part3 Redirect
-                    history.push('/')
-                }
+                    
+                    createOrUpdateUser(idTokenResult.token)
+                        .then((res) => {
+                            //now we are bringing all the info from the backend
+                            dispatch({
+                                type:'LOGGED_IN_USER',
+                                payload:{
+                                    name:res.data.name,
+                                    email:res.data.email,
+                                    token:idTokenResult.token,
+                                    role:res.data.role,
+                                    _id:res.data._id
+                            }
+                        })
+                        //console.log(result)
+                    })
+                .catch();
+                        
+                        //part3 Redirect
+                        history.push('/')
+                    }
         } catch (error) {
             console.log(error)
             Swal.fire({ title:error.message,
