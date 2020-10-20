@@ -3,7 +3,9 @@ import {auth} from '../firebase';
 //import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, 
+    //useSelector
+} from 'react-redux';
 import {createOrUpdateUser} from '../functions/auth';
 
 const ActiveAccount = ({history}) => {
@@ -11,7 +13,7 @@ const ActiveAccount = ({history}) => {
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
 
-    const {user} = useSelector( state => ({...state}));
+    //const {user} = useSelector( state => ({...state}));
     let dispatch = useDispatch();
 
     //props.history
@@ -28,7 +30,7 @@ const  UrlLink = window.location.href
         setEmail(window.localStorage.getItem('emailForRegistration'))// to set the email from local storage
         
     }
-    , [])
+    , [history])
 
      //We need to do the request to API to Register Successfully
 

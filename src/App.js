@@ -20,7 +20,13 @@ import UserDashboard from './userInterface/History';
 import UserRoute from './components/private routes/UserRoute';
 import Password from './userInterface/Password';
 import WishList from './userInterface/Wishlist';
+
 //Admin
+
+import AdminRoute from './components/private routes/AdminRoutes';
+import AdminDashboard from './adminInterface/AdminDashboard';
+
+
 
 const App = () => {
 
@@ -56,7 +62,7 @@ const App = () => {
 
     return () =>  unsubscribe();
 
-  }, [])
+  }, [dispatch])
 
   return(
     <>
@@ -76,6 +82,10 @@ const App = () => {
                 <UserRoute exact path='/user/dashboard' component={UserDashboard}/>
                 <UserRoute exact path='/user/password' component={Password}/>
                 <UserRoute exact path='/user/wishlist' component={WishList}/>
+
+
+                {/* ADMIN LINKS */}
+                <AdminRoute exact path='/admin/dashboard' component={AdminDashboard}/>
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>
