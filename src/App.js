@@ -14,6 +14,12 @@ import ForgotPassword from './auth/ForgotPassword';
 import  Home from './userInterface/Home';
 import Header from './components/nav/Header';
 
+// User
+
+import UserDashboard from './userInterface/History';
+import UserRoute from './components/private routes/UserRoute';
+//Admin
+
 const App = () => {
 
   const dispatch = useDispatch()
@@ -63,6 +69,10 @@ const App = () => {
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/register/complete' component={ActiveAccount}/>
                 <Route exact path='/forgot/password' component={ForgotPassword}/>
+
+                {/* USER subscriber */}
+                <UserRoute exact path='/user/dashboard' component={UserDashboard}/>
+
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>
