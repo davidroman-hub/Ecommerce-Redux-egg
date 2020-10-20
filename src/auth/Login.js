@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 //create or update user!!!
 
 
+
 const Login = ({history}) => {
 
     const [email,setEmail] = useState('jobroman83@gmail.com');
@@ -32,6 +33,16 @@ const Login = ({history}) => {
         },[user])
 
     let dispatch = useDispatch();
+
+    const roleBasedRedirect = (res) => {
+        if(res.data.role === 'admin'){
+            history.push('/admin/dashboard')
+        } else{
+            history.push('/user/dashboard')
+        }
+    }
+
+    ////////////// EMAIL AND PASSWORD
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,11 +66,12 @@ const Login = ({history}) => {
                         _id:res.data._id
                 }
             })
+            roleBasedRedirect(res);
             //console.log(result)
             })
             .catch((err) => console.log(err));
 
-            history.push('/')
+            //history.push('/')
         } catch (error) {
             console.log(error)
             Swal.fire({ title:error.message,
@@ -70,7 +82,115 @@ const Login = ({history}) => {
         
     };
 
+    ////////////// GOOGLE BUTTON
+
+    const handleGoogleLogin = async () => {
+        auth.signInWithPopup(googleAuthProvider)
+        .then( async (result) => {
+            const {user} = result
+            const idTokenResult = await user.getIdTokenResult();
+            createOrUpdateUser(idTokenResult.token)
+                .then((res) => {
+                    //now we are bringing all the info from the backend
+                    dispatch({
+                        type:'LOGGED_IN_USER',
+                        payload:{
+                            name:res.data.name,
+                            email:res.data.email,
+                            token:idTokenResult.token,
+                            role:res.data.role,
+                            _id:res.data._id
+                    }
+                })
+                roleBasedRedirect(res);
+                //console.log(result)
+                })
+                .catch((err) => console.log(err));
+            //history.push('/')
+            
+        })
+        .catch(err =>{  
+            console.log(err) 
+            Swal.fire({ title:err.message,
+                    icon:'error'
+                    });
+        })
+    };
+
+
+    const googleButton = () => {
+        return(
+            <Button
+                onClick={handleGoogleLogin}
+                type='danger'
+                className='mb-3'
+                block
+                shape='round'
+                icon={<GoogleOutlined/>}
+                size='large'
+                
+                > 
+                Login with Google
+            </Button>
+        )
+    }
     
+
+    ////////////// FACEBOOK BUTTON
+
+    // remember confign the oAuth inside facebook develop
+
+const handleFacebookLogin = async () => {
+    auth.signInWithPopup(facebookProvider)
+    .then( async (result) => {
+        const {user} = result
+        const idTokenResult = await user.getIdTokenResult();
+        createOrUpdateUser(idTokenResult.token)
+            .then((res) => {
+                //now we are bringing all the info from the backend
+                dispatch({
+                    type:'LOGGED_IN_USER',
+                    payload:{
+                        name:res.data.name,
+                        email:res.data.email,
+                        token:idTokenResult.token,
+                        role:res.data.role,
+                        _id:res.data._id
+                }
+            })
+            //console.log(result)
+             // we want to implement redirect user based in the role!
+            //if is admin to admin dashboard if is user userdashboard!
+                roleBasedRedirect(res);
+            })
+            .catch((err) => console.log(err));
+        //history.push('/')
+    })
+    .catch(err =>{  
+        console.log(err) 
+        Swal.fire({ title:err.message,
+                icon:'error'
+                });
+    })
+    
+}
+
+const facebookButton = () => {
+    return(
+        <Button
+            onClick={handleFacebookLogin}
+            type='primary'
+            className='mb-3'
+            block
+            shape='round'
+            icon={<FacebookOutlined/>}
+            size='large'
+            > 
+            Login with Facebook
+        </Button>
+    )
+}
+
 
     //REMEMBER TO HABILITE FROM GOOGLE CONSOLE THE LOGINS!!
 
@@ -130,106 +250,6 @@ const registerForm = () => (
         </div>
     </div>
 )
-
-
-const handleGoogleLogin = async () => {
-    auth.signInWithPopup(googleAuthProvider)
-    .then( async (result) => {
-        const {user} = result
-        const idTokenResult = await user.getIdTokenResult();
-        createOrUpdateUser(idTokenResult.token)
-            .then((res) => {
-                //now we are bringing all the info from the backend
-                dispatch({
-                    type:'LOGGED_IN_USER',
-                    payload:{
-                        name:res.data.name,
-                        email:res.data.email,
-                        token:idTokenResult.token,
-                        role:res.data.role,
-                        _id:res.data._id
-                }
-            })
-            //console.log(result)
-            })
-            .catch((err) => console.log(err));
-        history.push('/')
-    })
-    .catch(err =>{  
-        console.log(err) 
-        Swal.fire({ title:err.message,
-                icon:'error'
-                });
-    })
-};
-
-// remember confign the oAuth inside facebook develop
-
-const handleFacebookLogin = async () => {
-    auth.signInWithPopup(facebookProvider)
-    .then( async (result) => {
-        const {user} = result
-        const idTokenResult = await user.getIdTokenResult();
-        createOrUpdateUser(idTokenResult.token)
-            .then((res) => {
-                //now we are bringing all the info from the backend
-                dispatch({
-                    type:'LOGGED_IN_USER',
-                    payload:{
-                        name:res.data.name,
-                        email:res.data.email,
-                        token:idTokenResult.token,
-                        role:res.data.role,
-                        _id:res.data._id
-                }
-            })
-            //console.log(result)
-            })
-            .catch((err) => console.log(err));
-        history.push('/')
-    })
-    .catch(err =>{  
-        console.log(err) 
-        Swal.fire({ title:err.message,
-                icon:'error'
-                });
-    })
-    
-}
-
-const googleButton = () => {
-    return(
-        <Button
-            onClick={handleGoogleLogin}
-            type='danger'
-            className='mb-3'
-            block
-            shape='round'
-            icon={<GoogleOutlined/>}
-            size='large'
-            
-            > 
-            Login with Google
-        </Button>
-    )
-}
-
-
-const facebookButton = () => {
-    return(
-        <Button
-            onClick={handleFacebookLogin}
-            type='primary'
-            className='mb-3'
-            block
-            shape='round'
-            icon={<FacebookOutlined/>}
-            size='large'
-            > 
-            Login with Facebook
-        </Button>
-    )
-}
 
 
     return (
