@@ -19,7 +19,7 @@ const LoadingToRedirect = () => {
     return (
         <div className='container p-5 text-center'>
             <h3 className='text-danger'>You are not logged!</h3>
-            <p> Redirecting you in <i class="fas fa-spinner fa-pulse"/> {count}  seconds..</p>
+            <p> Redirecting you in <i className="fas fa-spinner fa-pulse"/> {count}  seconds..</p>
         </div>
     )
 }

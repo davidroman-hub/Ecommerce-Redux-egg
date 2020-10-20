@@ -18,6 +18,8 @@ import Header from './components/nav/Header';
 
 import UserDashboard from './userInterface/History';
 import UserRoute from './components/private routes/UserRoute';
+import Password from './userInterface/Password';
+import WishList from './userInterface/Wishlist';
 //Admin
 
 const App = () => {
@@ -72,7 +74,8 @@ const App = () => {
 
                 {/* USER subscriber */}
                 <UserRoute exact path='/user/dashboard' component={UserDashboard}/>
-
+                <UserRoute exact path='/user/password' component={Password}/>
+                <UserRoute exact path='/user/wishlist' component={WishList}/>
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>
