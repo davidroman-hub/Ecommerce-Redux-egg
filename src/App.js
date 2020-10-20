@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-
+import {currentUser} from './functions/auth';
 //Auth
 import  Login  from './auth/Login';
 import  Register  from './auth/Register';
@@ -25,14 +25,23 @@ const App = () => {
       if(user){
         const idTokenResult = await user.getIdTokenResult()
         console.log('user', user)
-        dispatch({
-          type:'LOGGED_IN_USER',
-          payload:{
-            email:user.email,
-            token:idTokenResult.token,
-          }
-        })
-      }
+          currentUser(idTokenResult.token)
+                        .then((res) => {
+                            //now we are bringing all the info from the backend
+                            dispatch({
+                                type:'LOGGED_IN_USER',
+                                payload:{
+                                    name:res.data.name,
+                                    email:res.data.email,
+                                    token:idTokenResult.token,
+                                    role:res.data.role,
+                                    _id:res.data._id
+                            }
+                        })
+                        //console.log(result)
+                    })
+                .catch((err) => console.log(err));
+        }
     } )
 
     //Clean up

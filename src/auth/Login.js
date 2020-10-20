@@ -57,7 +57,7 @@ const Login = ({history}) => {
             })
             //console.log(result)
             })
-            .catch();
+            .catch((err) => console.log(err));
 
             history.push('/')
         } catch (error) {
@@ -152,7 +152,7 @@ const handleGoogleLogin = async () => {
             })
             //console.log(result)
             })
-            .catch();
+            .catch((err) => console.log(err));
         history.push('/')
     })
     .catch(err =>{  
@@ -185,7 +185,7 @@ const handleFacebookLogin = async () => {
             })
             //console.log(result)
             })
-            .catch();
+            .catch((err) => console.log(err));
         history.push('/')
     })
     .catch(err =>{  

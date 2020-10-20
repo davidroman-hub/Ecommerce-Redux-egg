@@ -86,7 +86,7 @@ const  UrlLink = window.location.href
                         })
                         //console.log(result)
                     })
-                .catch();
+                .catch((err) => console.log(err));
                         
                         //part3 Redirect
                         history.push('/')
