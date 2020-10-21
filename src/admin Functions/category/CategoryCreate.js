@@ -7,17 +7,40 @@ import {
             getCategories, 
             removeCategory 
         } from '../../functions/categories';
+import Icon from '@ant-design/icons/lib/components/Icon';
 
         
 const CategoryCreate = () => {
 
     const [name, setName] = useState('')
-
+    const [loading, setLoading] = useState(false);
+    
+    const {user} = useSelector(state => ({...state}))
 
     const handleSubmit = (e) => {
         //
         e.preventDefault()
-        console.log(name)
+        //console.log(name)
+        setLoading(true)
+        createCategory({name}, user.token)
+        .then(res => {
+            console.log(res)
+            setLoading(false)
+            setName('')
+            Swal.fire({
+                title:`${res.data.name} is created`,
+                icon:'success'
+            })
+        })
+        .catch( err => {
+            console.log(err)
+            setLoading(false)
+            if(err.response.status === 400)
+            Swal.fire({
+                title:err.response.data,
+                icon:'error'
+            })
+        })
     }
 
 
