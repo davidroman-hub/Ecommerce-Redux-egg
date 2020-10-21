@@ -62,12 +62,19 @@ const Header = ({history}) => {
                         //name@gmail.com ['name', '@gmail.com'] // we gonna divide and gran only the first part
                         //remember in the arrays start with 0 , and the first part (name) its 0  then
                         className='float-right'>
-                        <Item key="setting:1" >
-                            <Link to='/user/dashboard'>
-                                Dashboard
-                            </Link>
-                        </Item>
-                        <Item key="setting:2">Option 2</Item>
+                        {user && user.role === 'subscriber'&& ( 
+                            <Item >
+                                <Link to='/user/dashboard'>
+                                        Dashboard
+                                </Link>
+                            </Item> )}
+
+                        {user && user.role === 'admin'&& (
+                            <Item >
+                                <Link to='/admin/dashboard'>
+                                        Dashboard
+                                </Link>
+                            </Item>) }                
                         <Item icon={<LogoutOutlined/>} onClick={logout}>Logout</Item>
                     </SubMenu>
                 </>
