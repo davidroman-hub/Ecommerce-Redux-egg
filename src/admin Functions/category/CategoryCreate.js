@@ -7,7 +7,8 @@ import {
             getCategories, 
             removeCategory 
         } from '../../functions/categories';
-import Icon from '@ant-design/icons/lib/components/Icon';
+import {EditOutlined ,  DeleteOutlined, WindowsFilled } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
         
 const CategoryCreate = () => {
@@ -52,6 +53,63 @@ const CategoryCreate = () => {
         })
     }
 
+    const handleRemove = async (slug) => {
+        //we gona ask to confirm
+
+        // if(window.confirm('Delete?')){
+        //     setLoading(true)
+        //     removeCategory(slug, user.token)
+        //     .then( res => {
+        //         setLoading(false)
+        //         Swal.fire({
+        //             title:`${res.data.name} is deleted !`,
+        //             icon:'success'
+        //         })
+        //     })
+        //     .catch( err => {
+        //         console.log(err)
+        //         setLoading(false)
+        //         if(err.response.status === 400)
+        //         Swal.fire({
+        //             title:err.response.data,
+        //             icon:'error'
+        //         })
+        //     })
+        // }
+
+        Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                removeCategory(slug, user.token)
+                .then( res => {
+                    setLoading(false)
+                    Swal.fire({
+                        title:`${res.data.name} is deleted !`,
+                        icon:'success'
+                    })
+                })
+                .catch( err => {
+                    console.log(err)
+                    setLoading(false)
+                    if(err.response.status === 400)
+                    Swal.fire({
+                        title:err.response.data,
+                        icon:'error'
+                    })
+                })
+            }
+        })
+    }
+
+
+/////////////////////////////
 
     const showCategoryForm = () => (
         <form onSubmit={handleSubmit}>
@@ -71,6 +129,24 @@ const CategoryCreate = () => {
     )
 
 
+    const renderingCategories = () => (
+        <>
+        {categories.map((c) => (
+            <div className='alert alert-secondary' key={c._id}>
+                {c.name} <span 
+                    className='btn btn-sm float-right'
+                    onClick={(() => handleRemove(c.slug))}
+                > <DeleteOutlined className='text-danger'/> </span> 
+                <Link to={`/admin/category/${c.slug}`}>
+                    <span className='btn btn-sm float-right'>
+                        <EditOutlined className='text-warning' />
+                    </span>
+                </Link>
+            </div>
+        ))}
+        </>
+    )
+
     const CategoryForm = () => (
         <div className='container-fluid'>
             <div className='row'>
@@ -81,7 +157,7 @@ const CategoryCreate = () => {
                     {loading ? <><i className="fas fa-spinner fa-pulse"/> <p>Loading...</p></>: <h4>Create Category</h4>}
                     {showCategoryForm()}
                     <hr/>
-                    {categories.length}
+                    {renderingCategories()}
                 </div>
             </div>
         </div>
