@@ -14,8 +14,17 @@ const CategoryCreate = () => {
 
     const [name, setName] = useState('')
     const [loading, setLoading] = useState(false);
-    
+    const [categories, setCategories] = useState([]);
     const {user} = useSelector(state => ({...state}))
+
+
+    const loadCategories = () => {
+        getCategories().then((c) => { setCategories(c.data) })
+    }
+
+    useEffect(() => {
+        loadCategories();
+    },[])
 
     const handleSubmit = (e) => {
         //
@@ -69,8 +78,10 @@ const CategoryCreate = () => {
                     <AdminNav/>
                 </div>
                 <div className='col'>
-                    <h4>Create Category</h4>
+                    {loading ? <><i className="fas fa-spinner fa-pulse"/> <p>Loading...</p></>: <h4>Create Category</h4>}
                     {showCategoryForm()}
+                    <hr/>
+                    {categories.length}
                 </div>
             </div>
         </div>
