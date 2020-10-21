@@ -41,6 +41,8 @@ const CategoryCreate = () => {
                 title:`${res.data.name} is created`,
                 icon:'success'
             })
+            loadCategories() // we need to load the categories again to recharge everything and see intantly the category 
+                            // and with this we dont need to reload the page to see the new category
         })
         .catch( err => {
             console.log(err)
@@ -93,7 +95,8 @@ const CategoryCreate = () => {
                     Swal.fire({
                         title:`${res.data.name} is deleted !`,
                         icon:'success'
-                    })
+                    });
+                loadCategories() /// <== and here the same if not we need to reload the page to see the results    
                 })
                 .catch( err => {
                     console.log(err)
