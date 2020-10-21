@@ -26,6 +26,9 @@ import WishList from './userInterface/Wishlist';
 import AdminRoute from './components/private routes/AdminRoutes';
 import AdminDashboard from './adminInterface/AdminDashboard';
 
+import CategoryCreate from './admin Functions/category/CategoryCreate';
+
+
 
 
 const App = () => {
@@ -86,6 +89,7 @@ const App = () => {
 
                 {/* ADMIN LINKS */}
                 <AdminRoute exact path='/admin/dashboard' component={AdminDashboard}/>
+                <AdminRoute exact path='/admin/category' component={CategoryCreate}/>
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>
