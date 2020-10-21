@@ -92,6 +92,7 @@ const App = () => {
                 <AdminRoute exact path='/admin/dashboard' component={AdminDashboard}/>
                 <AdminRoute exact path='/admin/category' component={CategoryCreate}/>
                 <AdminRoute exact path='/admin/category/:slug' component={CategoryUpdate}/>
+                
                 {/* <Redirect to='/' />  */}
               </Switch>
           </div>

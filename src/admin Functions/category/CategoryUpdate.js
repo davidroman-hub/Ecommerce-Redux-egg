@@ -19,13 +19,14 @@ const CategoryUpdate = ({history, match}) => {
     //let {slug} = useParams(); // and with this we can see the slug as well is an alternative to use 'match'
 
 
-    // const loadCategories = () => {
-    //     getCategories().then((c) => { setCategories(c.data) })
-    // }
+    const loadCategory = () => {
+        getCategory(match.params.slug).then((c) => { setName(c.data.name) })
+    }
 
     useEffect(() => {
         //console.log(slug)
-        console.log(match)
+        //console.log(match)
+        loadCategory()
     },[])
 
     const handleSubmit = (e) => {
@@ -33,15 +34,18 @@ const CategoryUpdate = ({history, match}) => {
         e.preventDefault()
         //console.log(name)
         setLoading(true)
-        updateCategories({name}, user.token)
+        // Remember to check every argument taht you send it , in this case we needed slug because we didnt have before
+        // and we didnt updated
+        updateCategories(match.params.slug,{name}, user.token)
         .then(res => {
             console.log(res)
             setLoading(false)
             setName('')
             Swal.fire({
-                title:`${res.data.name} is created`,
+                title:`${res.data.name} is updated`,
                 icon:'success'
-            })
+            });
+            history.push('/admin/category');
         
         })
         .catch( err => {
@@ -79,7 +83,7 @@ const CategoryUpdate = ({history, match}) => {
 
     const renderingCategories = () => (
         <>
-        //
+        Hello
         </>
     )
 
