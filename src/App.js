@@ -29,8 +29,8 @@ import AdminDashboard from './adminInterface/AdminDashboard';
 import CategoryCreate from './admin Functions/category/CategoryCreate';
 import CategoryUpdate from './admin Functions/category/CategoryUpdate';
 
-
-
+import SubCategoryCreate from './admin Functions/subCategory/SubCategoryCreate';
+import SubCategoryUpdate from './admin Functions/subCategory/SubCategoryUpdate';
 
 const App = () => {
 
@@ -90,8 +90,12 @@ const App = () => {
 
                 {/* ADMIN LINKS */}
                 <AdminRoute exact path='/admin/dashboard' component={AdminDashboard}/>
+
                 <AdminRoute exact path='/admin/category' component={CategoryCreate}/>
                 <AdminRoute exact path='/admin/category/:slug' component={CategoryUpdate}/>
+
+                <AdminRoute exact path='/admin/subcategory' component={SubCategoryCreate}/>
+                <AdminRoute exact path='/admin/subcategory/:slug' component={SubCategoryUpdate}/>
                 
                 {/* <Redirect to='/' />  */}
               </Switch>
