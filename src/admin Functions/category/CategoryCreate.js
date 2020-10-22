@@ -7,9 +7,9 @@ import {
             getCategories, 
             removeCategory 
         } from '../../functions/categories';
-import {EditOutlined ,  DeleteOutlined, WindowsFilled } from '@ant-design/icons';
+import {EditOutlined ,  DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-
+import CategoryFormReusable from '../../components/forms/CategoryForm';
         
 const CategoryCreate = () => {
 
@@ -114,22 +114,7 @@ const CategoryCreate = () => {
 
 /////////////////////////////
 
-    const showCategoryForm = () => (
-        <form onSubmit={handleSubmit}>
-            <div className ='form-group'>
-                <label>Name</label>
-                <input type='text' 
-                        className='form-control' 
-                        onChange={e => setName(e.target.value)} 
-                        value={name}
-                        autoFocus
-                        required
-                        />
-                        <br/>
-                        <button className='btn btn-outlined-primary'>Save</button>
-            </div>
-        </form>
-    )
+    
 
 
     const renderingCategories = () => (
@@ -158,7 +143,8 @@ const CategoryCreate = () => {
                 </div>
                 <div className='col'>
                     {loading ? <><i className="fas fa-spinner fa-pulse"/> <p>Loading...</p></>: <h4>Create Category</h4>}
-                    {showCategoryForm()}
+                    {/* // we gona send the previous info as props! and we have to destructure in the component */}
+                    <CategoryFormReusable handleSubmit={handleSubmit} name ={name} setName={setName} /> 
                     <hr/>
                     {renderingCategories()}
                 </div>

@@ -7,6 +7,7 @@ import {
             getCategory, 
 
         } from '../../functions/categories';
+import CategoryFormReusable from '../../components/forms/CategoryForm';
 //import {useParams} from 'react-router-dom'; // this hook can give us the info in match
 
 
@@ -63,23 +64,6 @@ const CategoryUpdate = ({history, match}) => {
 
 /////////////////////////////
 
-    const showCategoryForm = () => (
-        <form onSubmit={handleSubmit}>
-            <div className ='form-group'>
-                <label>Name</label>
-                <input type='text' 
-                        className='form-control' 
-                        onChange={e => setName(e.target.value)} 
-                        value={name}
-                        autoFocus
-                        required
-                        />
-                        <br/>
-                        <button className='btn btn-outlined-primary'>Save</button>
-            </div>
-        </form>
-    )
-
 
     const renderingCategories = () => (
         <>
@@ -95,7 +79,7 @@ const CategoryUpdate = ({history, match}) => {
                 </div>
                 <div className='col'>
                     {loading ? <><i className="fas fa-spinner fa-pulse"/> <p>Loading...</p></>: <h4>Update Category</h4>}
-                    {showCategoryForm()}
+                    <CategoryFormReusable handleSubmit={handleSubmit} name ={name} setName={setName} /> 
                     <hr/>
                     {renderingCategories()}
                 </div>
