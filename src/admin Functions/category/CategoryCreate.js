@@ -17,6 +17,10 @@ const CategoryCreate = () => {
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const {user} = useSelector(state => ({...state}))
+    
+    //searching filtering
+    //step 1 
+    const [keyword, setKeyword] = useState('')
 
 
     const loadCategories = () => {
@@ -114,12 +118,35 @@ const CategoryCreate = () => {
 
 /////////////////////////////
 
-    
+//Step 2
+const searchingKeyword = () => (
+    <input type='search'
+    placeholder='Search Something'
+    value={keyword}
+    onChange={handleSearchKeyword}
+    className='form-control mb-5'
+    />
+)
 
+
+//step 3
+
+const handleSearchKeyword = (e) => {
+    e.preventDefault()
+    setKeyword(e.target.value.toLowerCase())
+}
+
+
+//step 4
+
+const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)    
+
+
+//step 5 includes 'searched function' in the funtion map =>>
 
     const renderingCategories = () => (
         <>
-        {categories.map((c) => (
+        {categories.filter(searched(keyword)).map((c) => (
             <div className='alert alert-secondary' key={c._id}>
                 {c.name} <span 
                     className='btn btn-sm float-right'
@@ -135,6 +162,8 @@ const CategoryCreate = () => {
         </>
     )
 
+    
+
     const CategoryForm = () => (
         <div className='container-fluid'>
             <div className='row'>
@@ -144,7 +173,10 @@ const CategoryCreate = () => {
                 <div className='col'>
                     {loading ? <><i className="fas fa-spinner fa-pulse"/> <p>Loading...</p></>: <h4>Create Category</h4>}
                     {/* // we gona send the previous info as props! and we have to destructure in the component */}
+                    <hr/>
                     <CategoryFormReusable handleSubmit={handleSubmit} name ={name} setName={setName} /> 
+                    <hr/>
+                    {searchingKeyword()}
                     <hr/>
                     {renderingCategories()}
                 </div>
