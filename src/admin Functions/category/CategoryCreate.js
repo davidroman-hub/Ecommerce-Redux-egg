@@ -10,6 +10,7 @@ import {
 import {EditOutlined ,  DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import CategoryFormReusable from '../../components/forms/CategoryForm';
+import LocalSearch from '../../components/forms/LocalSearch';
         
 const CategoryCreate = () => {
 
@@ -118,24 +119,6 @@ const CategoryCreate = () => {
 
 /////////////////////////////
 
-//Step 2
-const searchingKeyword = () => (
-    <input type='search'
-    placeholder='Search Something'
-    value={keyword}
-    onChange={handleSearchKeyword}
-    className='form-control mb-5'
-    />
-)
-
-
-//step 3
-
-const handleSearchKeyword = (e) => {
-    e.preventDefault()
-    setKeyword(e.target.value.toLowerCase())
-}
-
 
 //step 4
 
@@ -176,7 +159,8 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
                     <hr/>
                     <CategoryFormReusable handleSubmit={handleSubmit} name ={name} setName={setName} /> 
                     <hr/>
-                    {searchingKeyword()}
+                    {/* //Step 2 and 3 */}
+                    <LocalSearch keyword={keyword} setKeyword={setKeyword} />
                     <hr/>
                     {renderingCategories()}
                 </div>
