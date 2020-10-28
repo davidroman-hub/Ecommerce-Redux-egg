@@ -7,13 +7,14 @@ import {EditOutlined ,  DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import CategoryFormReusable from '../../components/forms/CategoryForm';
 import LocalSearch from '../../components/forms/LocalSearch';
-import { createSubCategory, getSubCategories, removeSubCategory } from '../../functions/subCategories';
+import { createSubCategory, getSubCategories, removeSubCategory, getSubCategory } from '../../functions/subCategories';
         
 const SubCategoryCreate = () => {
 
     const [name, setName] = useState('')
     const [loading, setLoading] = useState(false);
-    const [categories, setCategories] = useState([]);
+    const [SubCategories, setSubCategories] = useState([]);
+    const [Categories, setCategories] = useState([]);
     const {user} = useSelector(state => ({...state}));
     const [category, setCategory] = useState("") // <== to create the sub category
     
@@ -22,12 +23,16 @@ const SubCategoryCreate = () => {
     const [keyword, setKeyword] = useState('')
 
 
+    const loadSubCategories = () => {
+        getSubCategories().then((c) => { setSubCategories(c.data) })
+    }
     const loadCategories = () => {
         getCategories().then((c) => { setCategories(c.data) })
     }
 
     useEffect(() => {
-        loadCategories();
+        loadSubCategories();
+        loadCategories()
     },[])
 
     const handleSubmit = (e) => {
@@ -45,6 +50,7 @@ const SubCategoryCreate = () => {
                 title:`${res.data.name} is created`,
                 icon:'success'
             })
+            loadSubCategories()
         })
         .catch( err => {
             console.log(err)
@@ -98,6 +104,7 @@ const SubCategoryCreate = () => {
                         title:`${res.data.name} is deleted !`,
                         icon:'success'
                     });
+                    loadSubCategories()
                 })
                 .catch( err => {
                     console.log(err)
@@ -123,21 +130,21 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
 
 //step 5 includes 'searched function' in the funtion map =>>
 
-    const renderingCategories = () => (
+    const renderingSubCategories = () => (
         <>
-        {/* {categories.filter(searched(keyword)).map((c) => (
-            <div className='alert alert-secondary' key={c._id}>
-                {c.name} <span 
+        {SubCategories.filter(searched(keyword)).map((s) => (
+            <div className='alert alert-secondary' key={s._id}>
+                {s.name} <span 
                     className='btn btn-sm float-right'
-                    onClick={(() => handleRemove(c.slug))}
+                    onClick={(() => handleRemove(s.slug))}
                 > <DeleteOutlined className='text-danger'/> </span> 
-                <Link to={`/admin/category/${c.slug}`}>
+                <Link to={`/admin/subcategory/${s.slug}`}>
                     <span className='btn btn-sm float-right'>
                         <EditOutlined className='text-warning' />
                     </span>
                 </Link>
             </div>
-        ))} */}
+        ))}
         </>
     )
     const selectCategory = () => (
@@ -146,11 +153,11 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
             
                 <select name='category' className='form-control' onChange={(e) => setCategory(e.target.value)} >
                     <option >Please Select</option>
-                    {categories.length > 0 && categories.map((c) => (
+                    {Categories.length > 0 && Categories.map((c) => (
                         <option key={c._id} value={c._id} >{c.name}</option>
                     ))}
                 </select>    
-                {JSON.stringify(category)}
+                {/* {JSON.stringify(category)} */}
         </div>
     )
 
@@ -172,7 +179,8 @@ const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
                     {/* //Step 2 and 3 */}
                     <LocalSearch keyword={keyword} setKeyword={setKeyword} />
                     <hr/>
-                    {renderingCategories()}
+                    {renderingSubCategories()}
+                    {/* {JSON.stringify(SubCategories)} */}
                 </div>
             </div>
         </div>
