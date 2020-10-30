@@ -97,7 +97,7 @@ const ProductCreate = () => {
     return (
         <>
             {ProductForm()}
-            {JSON.stringify(values.categories)}
+            {/* {JSON.stringify(values.categories)} */}
         </>
     )
 }

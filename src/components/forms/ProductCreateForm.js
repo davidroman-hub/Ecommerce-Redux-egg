@@ -6,18 +6,18 @@ const ProductCreateForm = ({values, handleSubmit, handleChange}) => {
       //destructure
     
     const { title, 
-        description, 
-        price, 
-        category,
-        categories, 
-        subcategories, 
-        shipping, 
-        quantity,
-        images,
-        brand,
-        brands,
-        colors,
-        color
+            description, 
+            price, 
+            category,
+            categories, 
+            subcategories, 
+            shipping, 
+            quantity,
+            images,
+            brand,
+            brands,
+            colors,
+            color
     } = values
 
     return (
@@ -87,21 +87,8 @@ const ProductCreateForm = ({values, handleSubmit, handleChange}) => {
                     />
             </div>
 
-            <div className='form-group'>
-                {/* <label>Color</label>
-                    <select
-                        onChange={handleChange}
-                        className='form-control'
-                        value={color}
-                        name='color'
-                        required
-                    >
-                        <option >Please Select</option>
-                        {colors.map( c => <option key={c} value={c}>
-                            {c}
-                        </option>)}
-                    </select> */}
-
+            
+                
             <div className='form-group'>
                 <label>Color</label>
                     <select 
@@ -116,7 +103,7 @@ const ProductCreateForm = ({values, handleSubmit, handleChange}) => {
                         </option>)}
                 </select>
             </div>
-            </div>
+        
 
             <div className='form-group'>
                 <label>Brand</label>
@@ -133,7 +120,17 @@ const ProductCreateForm = ({values, handleSubmit, handleChange}) => {
                         </option>)}
                     </select>
             </div>
-
+            <div className='form-group'>
+            <label className='mb-2'>Category</label>
+            
+                <select name='category' className='form-control' onChange={handleChange} required >
+                    <option >Please Select</option>
+                    {categories.length > 0 && categories.map((c) => (
+                        <option key={c._id} value={c._id} >{c.name}</option>
+                    ))}
+                </select>    
+        </div>
+                {/* {JSON.stringify(categories)} */}
                 <button className='btn btn-outline-info'>Save</button>
 
         </form>
