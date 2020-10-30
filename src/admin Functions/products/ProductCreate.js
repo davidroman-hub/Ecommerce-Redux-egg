@@ -44,10 +44,18 @@ const ProductCreate = () => {
 
     /// handle Category change For show THE SUBCATEGORIES when you click at the category options in create product
 
+    const [subOptions, setSubOptions] = useState([]);
+
+
     const handleCategoryChange = (e) => {
         e.preventDefault()
         console.log('clicked Category', e.target.value)
         setValues({...values, category: e.target.value})
+        getCategorySubs(e.target.value)
+        .then(res => {
+            console.log('SUB OPTIONS ON CATEGORY CLICK' , res)
+            setSubOptions(res.data)
+        })
     }
 
     //redux to take the state from user we need the token
