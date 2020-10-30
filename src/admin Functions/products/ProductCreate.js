@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux'
 import { createProduct } from '../../functions/product';
 import ProductCreateForm from '../../components/forms/ProductCreateForm';
-import { getCategories } from '../../functions/categories';
+import { getCategories, getCategorySubs } from '../../functions/categories';
 
 const ProductCreate = () => {
     
@@ -40,6 +40,14 @@ const ProductCreate = () => {
     const handleChange = (e) => {
         setValues({...values, [e.target.name]: e.target.value})
         //console.log(e.target.name, '-------', e.target.value)
+    }
+
+    /// handle Category change For show THE SUBCATEGORIES when you click at the category options in create product
+
+    const handleCategoryChange = (e) => {
+        e.preventDefault()
+        console.log('clicked Category', e.target.value)
+        setValues({...values, category: e.target.value})
     }
 
     //redux to take the state from user we need the token
@@ -84,6 +92,7 @@ const ProductCreate = () => {
                                 handleSubmit={handleSubmit} 
                                 handleChange={handleChange}
                                 values={values}
+                                handleCategoryChange={handleCategoryChange}
                                 />                  
                     </div>
                     

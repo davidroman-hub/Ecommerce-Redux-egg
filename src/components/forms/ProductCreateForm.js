@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const ProductCreateForm = ({values, handleSubmit, handleChange}) => {
+const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryChange}) => {
 
       //destructure
     
@@ -123,13 +123,13 @@ const ProductCreateForm = ({values, handleSubmit, handleChange}) => {
             <div className='form-group'>
             <label className='mb-2'>Category</label>
             
-                <select name='category' className='form-control' onChange={handleChange} required >
+                <select name='category' className='form-control' onChange={handleCategoryChange} required >
                     <option >Please Select</option>
                     {categories.length > 0 && categories.map((c) => (
                         <option key={c._id} value={c._id} >{c.name}</option>
                     ))}
                 </select>    
-        </div>
+            </div>
                 {/* {JSON.stringify(categories)} */}
                 <button className='btn btn-outline-info'>Save</button>
 

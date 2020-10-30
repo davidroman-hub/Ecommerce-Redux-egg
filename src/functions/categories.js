@@ -40,3 +40,10 @@ export const removeCategory = async (slug, authtoken) =>
         }
     });
 
+
+
+    /// To show the sub categories when you choose the Father Category
+
+    export const getCategorySubs = async (_id) => 
+        await axios.get(`${process.env.REACT_APP_API}/category/subs/${_id}`);
+        
