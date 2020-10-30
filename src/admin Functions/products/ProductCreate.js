@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import AdminNav from '../../components/nav/AdminNav';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux'
-import { createProduct } from '../../functions/categories';
+import { createProduct } from '../../functions/product';
 
 
 const ProductCreate = () => {
@@ -44,15 +44,35 @@ const ProductCreate = () => {
         } = values
 
     const handleChange = (e) => {
-        e.preventDefault();
+        setValues({...values, [e.target.name]: e.target.value})
+        //console.log(e.target.name, '-------', e.target.value)
     }
+
+    //redux to take the state from user we need the token
+
+    const {user} = useSelector((state) => ({...state}))
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(values)
+        createProduct(values, user.token )
+        .then( res => {
+            console.log(res)
+        })
+        .catch( err => {
+            console.log(err)
+            if (err.response.status === 400)
+            Swal.fire({
+                title:err.response.data,
+                icon:'error'
+            }) 
+        })
     }
 
     const ProductFormExec = () => (
+        
         <form onSubmit={handleSubmit}>
+            {/* {JSON.stringify(values)} */}
             <div className='form-group'>
                 <label>Title</label>
                 <input 
@@ -141,7 +161,7 @@ const ProductCreate = () => {
                         </option>)}
                     </select>
             </div>
-                
+
                 <button className='btn btn-outline-info'>Save</button>
 
         </form>
