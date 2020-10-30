@@ -45,6 +45,7 @@ const ProductCreate = () => {
     /// handle Category change For show THE SUBCATEGORIES when you click at the category options in create product
 
     const [subOptions, setSubOptions] = useState([]);
+    const [showSub, setShowSub] = useState(false);
 
 
     const handleCategoryChange = (e) => {
@@ -101,6 +102,9 @@ const ProductCreate = () => {
                                 handleChange={handleChange}
                                 values={values}
                                 handleCategoryChange={handleCategoryChange}
+                                subOptions={subOptions}
+                                setSubOptions={setSubOptions}
+                                showSub={showSub}
                                 />                  
                     </div>
                     

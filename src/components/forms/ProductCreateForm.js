@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryChange}) => {
+const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryChange, showSub, subOptions}) => {
 
       //destructure
     
@@ -131,6 +131,7 @@ const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryCh
                 </select>    
             </div>
                 {/* {JSON.stringify(categories)} */}
+                {subOptions ? subOptions.length: 'No subCategories yet'}
                 <button className='btn btn-outline-info'>Save</button>
 
         </form>
