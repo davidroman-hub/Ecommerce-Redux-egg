@@ -9,19 +9,19 @@ import { createProduct } from '../../functions/product';
 const ProductCreate = () => {
 
     const initialState = {
-        title:'',
-        description:'',
-        price:'',
+        title:'Asus Tuf',
+        description:'the best ',
+        price:'200',
         categories:[],
         category:'',
         subcategories:[],
-        shipping:'',
-        quantity:'',
+        shipping:'Yes',
+        quantity:'200',
         images:[],
         brands:['Apple', 'Samsung','Microsoft', 'Lenovo','Asus'],
         colors:['Black', 'Brown','Silver', 'White'],
-        color:'',
-        brand:''
+        color:'Black',
+        brand:'Asus'
     }
 
     const [values, setValues] = useState(initialState)
@@ -58,12 +58,18 @@ const ProductCreate = () => {
         createProduct(values, user.token )
         .then( res => {
             console.log(res)
+            // Swal.fire({
+            //     title:`${res.data.title} is created`,
+            //     icon:'success'
+            // })
+            window.alert(`" ${res.data.name} " is created`);
+            window.location.reload();
         })
-        .catch( err => {
+        .catch( (err) => {
             console.log(err)
-            if (err.response.status === 400)
+            //if (err.response.status === 400)
             Swal.fire({
-                title:err.response.data,
+                title:err.response.data.err,
                 icon:'error'
             }) 
         })
@@ -81,6 +87,7 @@ const ProductCreate = () => {
                     className='form-control'
                     value={title}
                     onChange={handleChange}
+                    required
                     />
             </div>
 
@@ -92,6 +99,7 @@ const ProductCreate = () => {
                     className='form-control'
                     value={description}
                     onChange={handleChange}
+                    required
                     />
             </div>
 
@@ -103,21 +111,22 @@ const ProductCreate = () => {
                     className='form-control'
                     value={price}
                     onChange={handleChange}
+                    required
                     />
             </div>
 
             <div className='form-group'>
                 <label>Shipping</label>
-                    <select
-                        name='shipping'
-                        className='form-control'
-                        onChange={handleChange}
-                        value={shipping}
-                    >
-                        <option >Please Select</option>
-                        <option value='No'>No</option>
-                        <option value='Yes'>Yes</option>
-                    </select>
+                    <select 
+                    onChange={handleChange}
+                    className='form-control'
+                    value={shipping}
+                    name='shipping'
+                    required>
+                    <option value=''>Por Favor Selecciona</option>
+                    <option value='No'>No</option>
+                    <option value='Yes'>Yes</option>
+                </select>
             </div>
 
 
@@ -129,22 +138,39 @@ const ProductCreate = () => {
                     className='form-control'
                     value={quantity}
                     onChange={handleChange}
+                    required
                     />
             </div>
 
             <div className='form-group'>
-                <label>Color</label>
+                {/* <label>Color</label>
                     <select
-                        name='color'
-                        className='form-control'
                         onChange={handleChange}
+                        className='form-control'
                         value={color}
+                        name='color'
+                        required
                     >
                         <option >Please Select</option>
                         {colors.map( c => <option key={c} value={c}>
                             {c}
                         </option>)}
-                    </select>
+                    </select> */}
+
+            <div className='form-group'>
+                <label>Color</label>
+                    <select 
+                    onChange={handleChange}
+                    className='form-control'
+                    value={color}
+                    name='color'
+                    required>
+                    <option >Please Select</option>
+                        {colors.map( c => <option required key={c} value={c}>
+                            {c}
+                        </option>)}
+                </select>
+            </div>
             </div>
 
             <div className='form-group'>
@@ -154,6 +180,7 @@ const ProductCreate = () => {
                         className='form-control'
                         onChange={handleChange}
                         value={brand}
+                        required
                     >
                         <option >Please Select</option>
                         {brands.map( b => <option key={b} value={b}>
