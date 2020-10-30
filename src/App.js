@@ -32,6 +32,8 @@ import CategoryUpdate from './admin Functions/category/CategoryUpdate';
 import SubCategoryCreate from './admin Functions/subCategory/SubCategoryCreate';
 import SubCategoryUpdate from './admin Functions/subCategory/SubCategoryUpdate';
 
+import ProductCreate from './admin Functions/products/ProductCreate';
+
 const App = () => {
 
   const dispatch = useDispatch()
@@ -96,6 +98,8 @@ const App = () => {
 
                 <AdminRoute exact path='/admin/subcategory' component={SubCategoryCreate}/>
                 <AdminRoute exact path='/admin/subcategory/:slug' component={SubCategoryUpdate}/>
+
+                <AdminRoute exact path='/admin/product' component={ProductCreate}/>
                 
                 {/* <Redirect to='/' />  */}
               </Switch>
