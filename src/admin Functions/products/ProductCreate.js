@@ -96,6 +96,7 @@ const ProductCreate = () => {
                 <div className='col mt-5'>
                     <h4 className='text-center'>Product Create </h4>
                     <br/>
+                    {JSON.stringify(values.subcategories)}
                     <div className='col-md-6 offset-md-3 mt-3'>
                             <ProductCreateForm  
                                 handleSubmit={handleSubmit} 
@@ -105,6 +106,7 @@ const ProductCreate = () => {
                                 subOptions={subOptions}
                                 setSubOptions={setSubOptions}
                                 showSub={showSub}
+                                setValues={setValues}
                                 />                  
                     </div>
                     

@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
+import {Select} from 'antd';
 
+const {Option} = Select;
 
-const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryChange, showSub, subOptions}) => {
+const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryChange, showSub, subOptions,setValues}) => {
 
       //destructure
     
@@ -131,7 +133,23 @@ const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryCh
                 </select>    
             </div>
                 {/* {JSON.stringify(categories)} */}
-                {subOptions ? subOptions.length: 'No subCategories yet'}
+                {/* {subOptions ? subOptions.length: 'No subCategories yet'} */}
+                <>
+                    <label>Sub Categories</label>
+                        {/* From aintDesign */}
+                        <Select
+                        mode='multiple'
+                        style={{width:'100%'}}
+                        placeholder='Please Select'
+                        value={subcategories}
+                        //onChange={handleChange}
+                        onChange={ (value) => setValues({...values, subcategories: value})}
+                        //name='subcategories'
+                        > 
+                            <Option value='one'>Option One</Option>
+                            <Option value='two'>Option two</Option>
+                        </Select>
+                </>
                 <button className='btn btn-outline-info'>Save</button>
 
         </form>
