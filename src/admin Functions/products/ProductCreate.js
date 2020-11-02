@@ -51,12 +51,14 @@ const ProductCreate = () => {
     const handleCategoryChange = (e) => {
         e.preventDefault()
         console.log('clicked Category', e.target.value)
-        setValues({...values, category: e.target.value})
+        setValues({...values, subcategories:[], category: e.target.value})
         getCategorySubs(e.target.value)
         .then(res => {
             console.log('SUB OPTIONS ON CATEGORY CLICK' , res)
             setSubOptions(res.data)
         })
+        setShowSub(true)
+        
     }
 
     //redux to take the state from user we need the token

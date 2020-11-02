@@ -134,7 +134,8 @@ const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryCh
             </div>
                 {/* {JSON.stringify(categories)} */}
                 {/* {subOptions ? subOptions.length: 'No subCategories yet'} */}
-                <>
+                        {/* /// If we don have a category selected dont show subs if is selected show them */}
+                { showSub && <>
                     <label>Sub Categories</label>
                         {/* From aintDesign */}
                         <Select
@@ -146,11 +147,14 @@ const ProductCreateForm = ({values, handleSubmit, handleChange, handleCategoryCh
                         onChange={ (value) => setValues({...values, subcategories: value})}
                         //name='subcategories'
                         > 
-                            <Option value='one'>Option One</Option>
-                            <Option value='two'>Option two</Option>
+                        {subOptions.length && subOptions.map((s) => (
+                            <Option key={s._id} value={s._id}>{s.name}</Option>
+                        ))}
+                            
                         </Select>
-                </>
-                <button className='btn btn-outline-info'>Save</button>
+                </> }
+                
+                <button className='btn btn-outline-info mt-5'>Save</button>
 
         </form>
         </>
